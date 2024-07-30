@@ -4,83 +4,80 @@
 using namespace std; 
 
 /*
-vamos a crear nuestra primera clase en C++, un miembro de una clase puede ser o bien un método o bien un atributo
+Vamos a crear nuestra primera clase en C++, un miembro de una clase puede ser o bien un método o bien un atributo.
 */
 
-class Persona{ //por defecto la clase encapsula (restringe el acceso a la información
+class Persona { // Por defecto, la clase encapsula (restringe el acceso a la información).
     
-    private: //no puedo acceder a los atributos de la clase, pero sí los 
-    //puedo modificar. también hay 
-    //otra forma de proteger y es 
-    //protected, se usa cuando definimos herencia.
+    private: 
         string nombre;
-        int edad; 
-    //definimos el constructor de los objetos, sirven para inicializar variables. 
+        int edad;
 
     public:
+        static int numero_personas;
 
-        /*Persona(string n, int e){ //estos son los atributos que me ingresa el usuario. 
-            nombre=n; //a la izquierda como se maneja en el código, a la derecha lo que se ingresa
-            edad=e;
-        }*/
-
-        /*existe otra forma de definir el constructor en línea*/
-        //Persona(string n, int e): nombre(n), edad(e){}
-        /*también se puede usando el comando this*/
-        
-        static int numero_personas;  
-
+        // Constructor
         Persona(string nombre, int edad);
         
-        ~Persona(){
-            /*sólo se debe hacer limpieza manual si los atributos se definieron 
-            como punteros. */
-            //cout <<"destructor" <<endl;
-        }
+        // Destructor
+        ~Persona();
 
-    /*podemos definir funciones que sirvan para cambiar los atributos de 
-    un objeto sin necesidad de redefinirlo*/
+        // Métodos para cambiar los atributos, devuelve una referencia a la instancia de la clase para poder concatenar los cambios al objeto 
+        Persona &change_name(string nombre);
+        Persona &change_edad(int edad);
 
-        Persona &change_name(string nombre){ //se hace de esta manera para que podamos concatenar los cambios de atributos 
-            this->nombre=nombre; /*el & se pone en señal de que devolvemos una referencia y no una copia del objeto, si lo quitamos
-            estaríamos devolviendo un objeto por valor, que no se modificaría como tal, entonces no funcionaría el encadenamiento*/
-            return *this;
-        }
-
-        Persona &change_edad(int edad){
-
-            this->edad=edad; 
-            return *this; //devuelve un objeto de tipo persona
-        }
-        //métodos 
-
+        // Método para saludar
         void saludar();
 };
 
-int Persona::numero_personas=0; //de esta forma se inicializa una variable estática
-/*es muy útil definir las funciones de esta manera para que no se cree una copia cada vez que se instancie la clase*/
+// Inicialización de la variable estática
+int Persona::numero_personas = 0;
 
-void Persona::saludar(){
-    cout <<"hola, me llamo: " <<nombre <<" y tengo: " <<edad <<" años" <<endl;
-}
-
-Persona::Persona(string nombre, int edad){
-    this->nombre=nombre; 
-    this->edad=edad;
+// Definición del constructor
+Persona::Persona(string nombre, int edad) {
+    this->nombre = nombre; 
+    this->edad = edad;
+    // Incrementa el número de personas cada vez que se crea un objeto de la clase Persona
     numero_personas++;
-
 }
 
-int main(){
+// Definición del destructor
+Persona::~Persona() {
+    cout << "Se ha destruido el objeto" << endl;
+    numero_personas--;
+}
 
-    Persona p=Persona("Felipe", 23); //puedo definirlo sin puntero
+// Método para saludar
+void Persona::saludar() {
+    cout << "Hola, me llamo " << nombre << " y tengo " << edad << " años" << endl;
+}
+
+// Método para cambiar el nombre
+Persona &Persona::change_name(string nombre) {
+    this->nombre = nombre; 
+    return *this;
+}
+
+// Método para cambiar la edad
+Persona &Persona::change_edad(int edad) {
+    this->edad = edad; 
+    return *this;
+}
+
+// Función principal
+int main() {
+    Persona p = Persona("Felipe", 23); // Puedo definirlo sin puntero
     p.saludar();
-    Persona* p1=new Persona("Diana", 27); //es muy útil trabajar con punteros 
-    //pues estos apuntan al inicio de la estructura que define la clase. 
+
+    Persona* p1 = new Persona("Diana", 27); // Es muy útil trabajar con punteros
     p1->saludar();
-    p1->change_name("ximena").change_edad(24); //concatenamos los cambios al objeto, sin necesidad de acceder de nuevo a los atributos ni redefinir el objeto. 
+    p1->change_name("Ximena").change_edad(24); // Concatenamos los cambios al objeto
     p1->saludar();
 
-    cout <<Persona::numero_personas <<endl; 
+    cout << "Número de personas: " << Persona::numero_personas << endl; 
+
+    // Libera la memoria asignada con new
+    delete p1;
+
     return 0; 
 }
