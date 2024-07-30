@@ -19,10 +19,11 @@ struct Nodo{ //estructura del nodo de la pila.
     Nodo* siguiente; 
 };
 
-/*los argumentos de esta función son un puntero a la cima de la pila que voy a modificar, y el valor del dato a agregar*/
+/*los argumentos de esta función son: puntero a la cima de la pila que voy a modificar, y el valor del dato a agregar*/
 
-void agregarPila(Nodo* &pila, int n){ //el puntero pila apunta hacia el elemento de la cima de la pila. 
+void agregarPila(Nodo* &pila, int n){ //el puntero pila apunta hacia el elemento de la cima de la pila, y lo pasamos por referencia. 
 
+/*SE UNA *& PORQUE SE PASA UN PUNTERO, PERO ADEMÁS SE HACE POR REFERENCIA, ES DECIR, PUEDO MODIFICAR EL PUNTERO COMO TAL, HACIA DONDE APUNTA.*/
     Nodo* nuevo_nodo= new Nodo(); //paso 1, defino un puntero al nodo que quiero agregar. 
 
     nuevo_nodo->dato=n; //paso 2.
