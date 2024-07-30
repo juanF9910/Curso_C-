@@ -11,6 +11,7 @@
 */
  
 #include <iostream> 
+#include <stdlib.h>
 
 using namespace std; 
 
@@ -35,5 +36,6 @@ void agregarPila(Nodo* &pila, int n){ //el puntero pila apunta hacia el elemento
 int main(){
 
     Nodo *pila=NULL; //inicialmente el puntero apunta a la base. 
+    agregarPila(pila, 4); 
     return 0; 
 }
