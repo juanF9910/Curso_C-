@@ -19,8 +19,9 @@ por ejmplo, un número o una letra pero no ambos a la vez.
 int main(){
     char letra='A'; 
     char* puntero=&letra; 
-    cout <<(int*)puntero <<endl; /*
-    realizamos un casteo del valor que se guardó en la memoria
+    //cout <<(int*)puntero <<endl; 
+    cout << static_cast<void*>(puntero) << endl;
+    /*realizamos un casteo del valor que se guardó en la memoria
     */
    char* texto=(char*)"hola mundo"; //este sería el caso en el que defino el texto
    //no como un array. 

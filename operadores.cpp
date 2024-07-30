@@ -12,6 +12,7 @@ int main(){
     cout <<a/b <<endl;
     bool c=a<b;
 
+    sizeof(a);
 
 
     return 0; 

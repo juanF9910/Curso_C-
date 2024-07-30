@@ -4,20 +4,20 @@
 using namespace std;
 
 class Animal { // clase base
-protected: // atributos protegidos es decir, accesibles por las clases derivadas pero no por el resto de las clases
-    static int numero_animales; // atributo estático que cuenta el número de animales creados
-    string alimento; // atributo que indica el alimento del animal
+    protected: // atributos protegidos es decir, accesibles por las clases derivadas pero no por el resto de las clases
+        static int numero_animales; // atributo estático que cuenta el número de animales creados
+        string alimento; // atributo que indica el alimento del animal
 
-public: // métodos públicos
-    Animal(); // constructor
-    ~Animal(); // destructor
-    static int obtenerNumeroAnimales(); // método estático que devuelve el número de animales creados hasta el momento 
-    string obtenerAlimento(){ // método que devuelve el alimento del animal
-        return alimento;
-    };
-    void comer(){
-        cout<<"Este animal está comiendo " <<alimento<<"... ñom ñom"<<endl;
-    };
+    public: // métodos públicos
+        Animal(); // constructor
+        ~Animal(); // destructor
+        static int obtenerNumeroAnimales(); // método estático que devuelve el número de animales creados hasta el momento 
+        string obtenerAlimento(){ // método que devuelve el alimento del animal
+            return alimento;
+        };
+        void comer(){
+            cout<<"Este animal está comiendo " <<alimento<<"... ñom ñom"<<endl;
+        };
 };
 
 int Animal::numero_animales = 0;
@@ -40,13 +40,13 @@ int Animal::obtenerNumeroAnimales()
 }
 
 class Herviboro : public Animal {
-public:
-    Herviboro():Animal(){
-        this->alimento = "plantas ";
-    }
-    void pastar(){
-        cout<<"Este animal está pasteando ..."<<endl;
-    }
+    public:
+        Herviboro():Animal(){
+            this->alimento = "plantas ";
+        }
+        void pastar(){
+            cout<<"Este animal está pasteando ..."<<endl;
+        }
 };
 
 class Carnivoro : public Animal {

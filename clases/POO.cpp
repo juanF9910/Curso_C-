@@ -9,9 +9,6 @@ Vamos a crear nuestra primera clase en C++, un miembro de una clase puede ser o 
 
 class Persona { // Por defecto, la clase encapsula (restringe el acceso a la información).
     
-    private: 
-        string nombre;
-        int edad;
 
     public:
         static int numero_personas;
@@ -23,11 +20,16 @@ class Persona { // Por defecto, la clase encapsula (restringe el acceso a la inf
         ~Persona();
 
         // Métodos para cambiar los atributos, devuelve una referencia a la instancia de la clase para poder concatenar los cambios al objeto 
+        /*lo que está a continuación es mejor reemplazarlo por funciones miembro setters*/
         Persona &change_name(string nombre);
         Persona &change_edad(int edad);
 
         // Método para saludar
         void saludar();
+    private: 
+        string nombre;
+        int edad;
+
 };
 
 // Inicialización de la variable estática
@@ -35,7 +37,7 @@ int Persona::numero_personas = 0;
 
 // Definición del constructor
 Persona::Persona(string nombre, int edad) {
-    this->nombre = nombre; 
+    this->nombre = nombre; //se cambian por referencia
     this->edad = edad;
     // Incrementa el número de personas cada vez que se crea un objeto de la clase Persona
     numero_personas++;
