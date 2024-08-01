@@ -32,9 +32,11 @@ para insertar hay que tener en cuenta dos cosas:
  2. el arbol tiene un nodo o más de uno
 */
 
-void insertar(Nodo* &arbol, int n){ //incialmente es la raiz del árbol
+void insertar(Nodo* &arbol, int n){ //incialmente el puntero 
+  //es la raiz del árbol
 
  Nodo* nuevo=crearNodo(n);
+
   if(arbol==NULL){//si el árbol está vacío 
     arbol=nuevo; 
   }else{
@@ -52,7 +54,11 @@ void insertar(Nodo* &arbol, int n){ //incialmente es la raiz del árbol
 }
 
 int main(){
-
+    Nodo* arbol=nullptr; 
+    
+    for(int i=0; i<5; i++){
+        insertar(arbol, i); 
+    }
     return 0; 
 }
 
