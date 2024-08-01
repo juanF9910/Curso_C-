@@ -1,22 +1,30 @@
-
-/*para insertar estruturas a una lista se deben 
-seguir los siguientes pasos:  
-    1. crear un nuevo nodo
-    2. añadir el dato al nodo 
-    3. crear dos estructuras auxiliares y asignar
-        el puntero lista  a uno de ellos
-    4. insertar la estructura a la lista. 
-*/
-
 #include <iostream>
+
+/*
+para mostrar los elementos de la lista debemos seguir 3 pasos: 
+    1. crear un nodo
+    2. igualar dicho nodo a la lista
+    3. recorrer la lista de inicio a fin
+*/
 
 using namespace std; 
 
-struct Nodo{ //creamos el nodo, o unidad fundamental de la lista. 
-    int dato;
+struct Nodo{
+    int dato; 
     Nodo* siguiente; 
 };
 
+void mostrar(Nodo* lista){
+
+    Nodo* actual=new Nodo(); 
+    actual=lista; 
+
+    while(actual!=nullptr){
+        cout<<actual->dato; 
+        cout <<endl;
+        actual=actual->siguiente; 
+    }
+}
 
 void insertar_orden(Nodo* &lista, int n){
     //esta función lo que hace es insertar en orden
@@ -60,9 +68,14 @@ void insertar_lista(Nodo* &lista, int n) {
 }
 
 int main(){
+
     Nodo* lista=NULL;
+
     for(int i=5; i>=0; i--){
         insertar_lista(lista, i);
     }
+   
+    mostrar(lista) ;
+
     return 0; 
 }
