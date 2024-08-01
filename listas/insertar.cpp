@@ -49,7 +49,8 @@ void insertar_lista(Nodo* &lista, int n) {
         // Si la lista está vacía, el nuevo nodo será el primer elemento
         lista = nuevo;
     } else {
-        // Si la lista no está vacía, buscamos el último nodo
+        // Si la lista no está vacía, buscamos el último nodo, movemos el
+        //puntero. 
         Nodo* aux = lista;
         while (aux->siguiente != nullptr) {
             aux = aux->siguiente;

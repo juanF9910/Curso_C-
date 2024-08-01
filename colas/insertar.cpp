@@ -36,10 +36,11 @@ void agregar(Nodo* &frente, Nodo* &fin, int n){
         frente=nuevo; //si es null le asigna el valor de la nueva estructura
     }else{ //si hay nodos. 
         fin->siguiente=nuevo; //el puntero de la estructura que antes era la
-        // última, ahora va a apuntar hacia la estructura nueva. 
+        // última, ahora va a apuntar hacia la estructura nueva. el puntero dentro de fin
+        //va a dejar de apuntar a null y va a pasar a apuntar a nuevo. 
     }
 
-    fin=nuevo; //fin siempre apunta hacia el último elemento agregado
+    fin=nuevo; //fin siempre apunta hacia el último elemento agregado, el puntero dentro de nuevo apunta hacia null. 
 }
 
 int main(){
