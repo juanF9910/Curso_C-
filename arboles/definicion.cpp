@@ -31,8 +31,9 @@ using namespace std;
 
 struct Nodo{
     int dato; 
-    Nodo* der; 
     Nodo* izq; 
+    Nodo* der;
+    Nodo* padre; 
 };
 
 int main(){
