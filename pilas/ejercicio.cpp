@@ -16,9 +16,8 @@ void agregar(Nodo* &pila, int n){
 
 /*para poder acceder a los elementos de la pila toca ir eliminando uno a uno 
 para llegar a los demás*/
-void sacar(Nodo* &pila, int &n){
+void sacar(Nodo* &pila){
     Nodo* aux=pila; 
-    n=aux->dato; 
     pila=aux->siguiente;
     delete aux;  
 }
@@ -34,9 +33,29 @@ void mostrar(Nodo* pila) {
     cout << endl;
 }
 
+void buscar(Nodo* pila, int n){
+    Nodo* aux=pila; 
+    while(aux!=NULL){
+        if(aux->dato==n){
+            cout<<"el número "<<n<<" ha sido encontrado"<<endl;
+        }
+        aux=aux->siguiente;
+    }
+}
+
+int tamanio(Nodo* pila){
+    Nodo* aux=pila; 
+    int contador=0; 
+    while(aux!=NULL){
+        contador++;
+        aux=aux->siguiente;
+    }
+    return contador; 
+}
+
 int main(){
 
-    Nodo* pila=NULL; 
+    Nodo* pila=NULL;  //la pila siempre se inicializa en nulo.
     int dato; 
     cout<<"para terminar de ingresar digite un cero"<<endl;
     do{
@@ -50,6 +69,8 @@ int main(){
 
     cout<<"mostramos todos los elementos de la pila"<<endl;
 
+   mostrar(pila);
+   sacar(pila);
    mostrar(pila);
 
     return 0; 

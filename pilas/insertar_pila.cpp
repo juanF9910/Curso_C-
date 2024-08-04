@@ -1,7 +1,5 @@
 /*
- Una pila es un lista de estructuras que tienen asociado un puntero que apunta a la 
- primer estructura, 
- en donde cada estructura tiene un dato y un puntero a la estructura siguiente. Sólo 
+ Una pila es un puntero a una lista de estructuras, en donde cada estructura tiene un dato y un puntero a la estructura siguiente. Sólo 
  se puede acceder a los datos desde un extremo de la lista. 
 
  Pasos para añadir(crear) a una pila: 

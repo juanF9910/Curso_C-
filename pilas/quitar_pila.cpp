@@ -22,8 +22,9 @@ struct Nodo{
 
 void sacar(Nodo* &pila, int &n){ //el n debe ser por referencia para modificar su valor. 
 
-    Nodo* aux=pila; //el puntero auxiliar apunta hacia la estructura de la cima de la pila.
-    n=aux->dato; //guardamos el dato para poder eliminarlo
+    Nodo* aux=pila; //el puntero auxiliar  y la pila apuntan hacia la misma dirección, es decir, puedo modificar la misma posición de memoria 
+    //usando cualquiera de esos punteros.
+    aux->dato=n; //guardamos el dato para poder eliminarlo
     pila=aux->siguiente; /*pila apunta hacia la estructura siguiente*/ 
     delete aux; //eliminamos el puntero a la estructura auxiliar
 }
