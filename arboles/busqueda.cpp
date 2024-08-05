@@ -57,15 +57,14 @@ int main(){
 
 Nodo* crearNodo(int n, Nodo* padre){ 
 
-    Nodo* nuevo=new Nodo(); 
+  Nodo* nuevo=new Nodo(); 
 
-    nuevo->dato=n; 
-    nuevo->der=NULL; 
-    nuevo->izq=NULL; 
-    nuevo->padre=padre;
-    return nuevo; 
+  nuevo->dato=n; 
+  nuevo->der=nullptr; 
+  nuevo->izq=nullptr; 
+  nuevo->padre=padre;
+  return nuevo; 
 }
-
 
 /*
 para insertar hay que tener en cuenta dos cosas: 
