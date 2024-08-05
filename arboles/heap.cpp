@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <stdexcept>
+#include <functional>
 
 using namespace std;
 
@@ -12,88 +12,106 @@ struct Nodo {
 };
 
 Nodo* crearNodo(int, Nodo*);
-void insertar(Nodo*&, int, Nodo*);
+void insertar(Nodo*&, int, Nodo*, function<bool(int, int)>);
+void heapifyUp(Nodo*, function<bool(int, int)>);
+void heapifyDown(Nodo*, function<bool(int, int)>);
 void mostrar(Nodo*, int);
-void heapifyUp(Nodo*);
-void heapifyDown(Nodo*);
+void preorden(Nodo*);
+void inorden(Nodo*);
+void posorden(Nodo*);
 bool buscar(Nodo*, int);
-int obtenerMax(Nodo*);
-void eliminarMax(Nodo*&);
+void eliminar(Nodo*, function<bool(int, int)>);
 
 int main() {
-    Nodo* monticulo = nullptr;
+    Nodo* arbol = nullptr;
     int cont = 0;
 
     vector<int> datos = {12, 8, 7, 16, 14};
 
+    // Definir la función de comparación para min-heap
+    auto comparadorMaxHeap = [](int a, int b) { return a < b; };
+
+    // Definir la función de comparación para max-heap
+    // auto comparadorMaxHeap = [](int a, int b) { return a > b; };
+
     for (auto&& i : datos) {
-        insertar(monticulo, i, nullptr);
+        insertar(arbol, i, nullptr, comparadorMaxHeap);
     }
 
-    mostrar(monticulo, cont);
-    cout << "Maximo: " << obtenerMax(monticulo) << endl;
-    cout << buscar(monticulo, 7) << endl;
-
-    eliminarMax(monticulo);
-    cout << "Después de eliminar el máximo:" << endl;
-    mostrar(monticulo, cont);
-
+    mostrar(arbol, cont);
+    cout << buscar(arbol, 7) << endl;
+    preorden(arbol);
+    cout << endl;
+    inorden(arbol);
+    cout << endl;
+    posorden(arbol);
+    cout << endl;
+    eliminar(arbol, comparadorMHeap);
+    cout << endl;
+    cont = 0;
+    mostrar(arbol, cont);
     return 0;
 }
 
 Nodo* crearNodo(int n, Nodo* padre) {
     Nodo* nuevo = new Nodo();
     nuevo->dato = n;
-    nuevo->izq = nullptr;
     nuevo->der = nullptr;
+    nuevo->izq = nullptr;
     nuevo->padre = padre;
     return nuevo;
 }
 
-void insertar(Nodo*& arbol, int n, Nodo* padre) {
+void insertar(Nodo*& arbol, int n, Nodo* padre, function<bool(int, int)> comparador) {
+    Nodo* nuevo = crearNodo(n, padre);
     if (arbol == nullptr) {
-        arbol = crearNodo(n, padre);
-    } else if (arbol->izq == nullptr) {
-        insertar(arbol->izq, n, arbol);
-        heapifyUp(arbol->izq);
-    } else if (arbol->der == nullptr) {
-        insertar(arbol->der, n, arbol);
-        heapifyUp(arbol->der);
+        arbol = nuevo;
     } else {
-        if (rand() % 2 == 0) {
-            insertar(arbol->izq, n, arbol);
-            heapifyUp(arbol->izq);
-        } else {
-            insertar(arbol->der, n, arbol);
-            heapifyUp(arbol->der);
+        vector<Nodo*> queue = {arbol};
+        while (!queue.empty()) {
+            Nodo* temp = queue.front();
+            queue.erase(queue.begin());
+
+            if (temp->izq == nullptr) {
+                temp->izq = nuevo;
+                nuevo->padre = temp;
+                heapifyUp(nuevo, comparador);
+                return;
+            } else {
+                queue.push_back(temp->izq);
+            }
+
+            if (temp->der == nullptr) {
+                temp->der = nuevo;
+                nuevo->padre = temp;
+                heapifyUp(nuevo, comparador);
+                return;
+            } else {
+                queue.push_back(temp->der);
+            }
         }
     }
 }
 
-void heapifyUp(Nodo* nodo) {
-    while (nodo->padre != nullptr && nodo->dato > nodo->padre->dato) {
+void heapifyUp(Nodo* nodo, function<bool(int, int)> comparador) {
+    while (nodo->padre != nullptr && comparador(nodo->dato, nodo->padre->dato)) {
         swap(nodo->dato, nodo->padre->dato);
         nodo = nodo->padre;
     }
 }
 
-void heapifyDown(Nodo* nodo) {
-    while (nodo->izq != nullptr || nodo->der != nullptr) {
-        Nodo* mayor = nodo;
-
-        if (nodo->izq != nullptr && nodo->izq->dato > mayor->dato) {
-            mayor = nodo->izq;
+void heapifyDown(Nodo* nodo, function<bool(int, int)> comparador) {
+    while (true) {
+        Nodo* min = nodo;
+        if (nodo->izq != nullptr && comparador(nodo->izq->dato, min->dato)) {
+            min = nodo->izq;
         }
-        if (nodo->der != nullptr && nodo->der->dato > mayor->dato) {
-            mayor = nodo->der;
+        if (nodo->der != nullptr && comparador(nodo->der->dato, min->dato)) {
+            min = nodo->der;
         }
-
-        if (mayor == nodo) {
-            break;
-        } else {
-            swap(nodo->dato, mayor->dato);
-            nodo = mayor;
-        }
+        if (min == nodo) break;
+        swap(nodo->dato, min->dato);
+        nodo = min;
     }
 }
 
@@ -120,42 +138,62 @@ bool buscar(Nodo* arbol, int n) {
     }
 }
 
-int obtenerMax(Nodo* arbol) {
+void preorden(Nodo* arbol) {
     if (arbol == nullptr) {
-        throw runtime_error("El montículo está vacío");
+        return;
+    } else {
+        cout << arbol->dato << " ";
+        preorden(arbol->izq);
+        preorden(arbol->der);
     }
-    return arbol->dato;
 }
 
-void eliminarMax(Nodo*& arbol) {
+void inorden(Nodo* arbol) {
     if (arbol == nullptr) {
-        throw runtime_error("El montículo está vacío");
-    }
-
-    Nodo* nodoEliminar = arbol;
-
-    if (arbol->izq == nullptr && arbol->der == nullptr) {
-        delete arbol;
-        arbol = nullptr;
+        return;
     } else {
-        Nodo* ultimo = arbol;
-        while (ultimo->izq != nullptr || ultimo->der != nullptr) {
-            if (ultimo->der != nullptr) {
-                ultimo = ultimo->der;
-            } else {
-                ultimo = ultimo->izq;
-            }
-        }
+        inorden(arbol->izq);
+        cout << arbol->dato << " ";
+        inorden(arbol->der);
+    }
+}
 
-        swap(arbol->dato, ultimo->dato);
+void posorden(Nodo* arbol) {
+    if (arbol == nullptr) {
+        return;
+    } else {
+        posorden(arbol->izq);
+        posorden(arbol->der);
+        cout << arbol->dato << " ";
+    }
+}
 
+Nodo* encontrarUltimo(Nodo* arbol) {
+    if (arbol == nullptr) return nullptr;
+    vector<Nodo*> queue = {arbol};
+    Nodo* ultimo = nullptr;
+    while (!queue.empty()) {
+        Nodo* temp = queue.front();
+        queue.erase(queue.begin());
+        ultimo = temp;
+        if (temp->izq != nullptr) queue.push_back(temp->izq);
+        if (temp->der != nullptr) queue.push_back(temp->der);
+    }
+    return ultimo;
+}
+
+void eliminar(Nodo* arbol, function<bool(int, int)> comparador) {
+    if (arbol == nullptr) return;
+    Nodo* ultimo = encontrarUltimo(arbol);
+    if (ultimo == nullptr) return;
+    arbol->dato = ultimo->dato;
+    if (ultimo->padre != nullptr) {
         if (ultimo->padre->izq == ultimo) {
             ultimo->padre->izq = nullptr;
         } else {
             ultimo->padre->der = nullptr;
         }
-        delete ultimo;
-
-        heapifyDown(arbol);
     }
+    delete ultimo;
+    heapifyDown(arbol, comparador);
 }
