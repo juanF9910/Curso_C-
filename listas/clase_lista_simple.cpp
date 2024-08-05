@@ -4,30 +4,31 @@ using namespace std;
 
 template<typename T>
 class ListaSimple {
-private:
-    struct Nodo {
-        T dato;
-        Nodo* siguiente;
-    };
-    Nodo* lista; //puntero al objeto de la lista simple 
 
-    // Función privada para eliminar el primer nodo
-    void eliminarPrimero() {
-        if (lista) {
-            Nodo* aux = lista;
-            lista = lista->siguiente;
-            delete aux;
+    private:
+        struct Nodo {
+            T dato;
+            Nodo* siguiente;
+        };
+        Nodo* lista; //puntero al objeto de la lista simple 
+
+        // Función privada para eliminar el primer nodo
+        void eliminar_lista(){
+            if (lista) { //para eliminar desde el principio hasta el final
+                Nodo* aux = lista;
+                lista = lista->siguiente;
+                delete aux;
+            }
         }
-    }
 
-public:
-    ListaSimple();
-    ~ListaSimple();
-    void agregar(T n);
-    void sacar(T n);
-    void mostrar() const;
-    bool buscar(T n) const;
-    int tamanio() const;
+    public:
+        ListaSimple();
+        ~ListaSimple();
+        void agregar(T n);
+        void sacar(T n);
+        void mostrar() const;
+        bool buscar(T n) const;
+        int tamanio() const;
 };
 
 template<typename T>
@@ -36,7 +37,7 @@ ListaSimple<T>::ListaSimple() : lista(nullptr) {}
 template<typename T>
 ListaSimple<T>::~ListaSimple() {
     while (lista) {
-        eliminarPrimero();
+        eliminar_lista();
     }
 }
 
@@ -66,14 +67,14 @@ void ListaSimple<T>::sacar(T n) {
         while (aux != nullptr && aux->dato != n) {
             anterior = aux;
             aux = aux->siguiente;
-        }
+        } //correra hasta que encuentre el elemento o hasta que llegue al final de la lista
 
-        if (aux == nullptr) {
+        if (aux == nullptr) { //si no existe el elemento
             cout << "El elemento no existe" << endl;
-        } else if (anterior == nullptr) {
+        } else if (anterior == nullptr) { //si el dato a eliminar es el primer elemento entonces el puntero anterior no se ha movido
             lista = lista->siguiente;
             delete aux;
-        } else {
+        } else { //si no está al principio
             anterior->siguiente = aux->siguiente;
             delete aux;
         }
@@ -81,6 +82,7 @@ void ListaSimple<T>::sacar(T n) {
         cout << "La lista está vacía" << endl;
     }
 }
+
 
 template<typename T>
 void ListaSimple<T>::mostrar() const {

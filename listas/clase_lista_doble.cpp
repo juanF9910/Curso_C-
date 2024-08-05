@@ -112,6 +112,7 @@ bool ListaDoble<T>::buscar(T n) const {
     return false;
 }
 
+
 template<typename T>
 int ListaDoble<T>::tamanio() const {
     Nodo* aux = lista;
