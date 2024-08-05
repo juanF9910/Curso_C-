@@ -66,12 +66,6 @@ Nodo* crearNodo(int n, Nodo* padre){
   return nuevo; 
 }
 
-/*
-para insertar hay que tener en cuenta dos cosas: 
- 1. el árbol puede estar vacío. 
- 2. el arbol tiene un nodo o más de uno
-*/
-
 void insertar(Nodo* &arbol, int n, Nodo* padre){ //incialmente el puntero 
   //es la raiz del árbol
   Nodo* nuevo=crearNodo(n, padre);
@@ -92,13 +86,7 @@ void insertar(Nodo* &arbol, int n, Nodo* padre){ //incialmente el puntero
   }
 }
 
-
 void mostrar(Nodo* arbol, int cont){
-  /*el contador nos ayudará a separar un nodo de otro al momento de 
-  imprimir los nodos, dejará una sangría*/
-
-  /*si el árbol está vacío*/
-
   if(arbol==NULL){
     return;
   }else{
@@ -222,7 +210,8 @@ void eliminar(Nodo* arbol, int n){ //qué pasa si hay más de un n igual???
 
   if(arbol==NULL){
     return;
-  }else if(n<arbol->dato){ //nos vamos a la izquierda
+  }else if(n<arbol->dato){ //nos vamos a la izquierda, esto solo funciona si tenemos un solo n, en el caso de que dato sea una estructura, no funcionará 
+  //se debe modificar la función buscar para que retorne un puntero a la estructura que se quiere eliminar . 
     eliminar(arbol->izq, n);
   }else if(n>arbol->dato){
     eliminar(arbol->der, n);
