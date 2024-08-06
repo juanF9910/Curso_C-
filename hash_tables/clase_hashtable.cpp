@@ -3,7 +3,7 @@
 
 using namespace std;
 
-template<typename K, typename V>
+template<class K, class V> //la palabra class es equivalente a typename en plantillas de clase 
 class HashTable {
     private:
         struct Nodo { //estructura que se guarda en cada celda de la tabla hash

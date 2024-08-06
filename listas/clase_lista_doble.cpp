@@ -51,9 +51,9 @@ void ListaDoble<T>::agregar(T n) {
     nuevo->siguiente = nullptr;
     nuevo->anterior = nullptr;
 
-    if (lista == nullptr) {
+    if(lista == nullptr) {
         lista = nuevo;
-    } else {
+    }else{
         Nodo* aux = lista;
         while (aux->siguiente != nullptr) {
             aux = aux->siguiente;

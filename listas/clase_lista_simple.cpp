@@ -32,7 +32,7 @@ class ListaSimple {
 };
 
 template<typename T>
-ListaSimple<T>::ListaSimple() : lista(nullptr) {} //la lista inicialmente apunta a nulo
+ListaSimple<T>::ListaSimple():lista(nullptr) {} //la lista inicialmente apunta a nulo
 
 template<typename T>
 ListaSimple<T>::~ListaSimple() {
