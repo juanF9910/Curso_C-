@@ -23,10 +23,8 @@ class Cola{
 };
 
 template<typename T>
-Cola<T>::Cola(){
-    frente = nullptr;
-    final = nullptr;
-}
+Cola<T>::Cola():frente(nullptr),final(nullptr){}
+
 
 template<typename T>
 Cola<T>::~Cola(){
@@ -52,16 +50,13 @@ void Cola<T>::agregar(T n){
 
 template<typename T>
 void Cola<T>::sacar(){
-    Nodo* aux=frente;  //auxiliar apunta en la a la misma dirección que frente, 
-    //es decir, puedo modificar esa parte de la memoria con cualquiera de los dos punteros. 
-
+    Nodo* aux=frente; /*si apunto con dos punteros puedo modificar con cualquiera de ellos*/
     if(frente==fin){ //si hay una sola estructura
         frente=nullptr; 
         fin=nullptr; 
     }else{
         frente=frente->siguiente; //si hay más de una estructura
     } 
-
     delete aux; 
 }
 

@@ -1,153 +1,169 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-template<typename T>
-class ArbolBusqueda {
-    private:
-        struct Nodo{ //definimos la estructura del nodo
-            T dato;
-            Nodo* izquierdo;
-            Nodo* derecho;
-            Nodo* padre; // Puntero al nodo padre, útil para ciertas operaciones como eliminar
+template <typename T>
+class ArbolBinarioBusqueda {
+private:
+    struct Nodo {
+        T dato;
+        Nodo* izq;
+        Nodo* der;
+        Nodo* padre;
 
-            Nodo(T val, Nodo* p = nullptr)
-                : dato(val), izquierdo(nullptr), derecho(nullptr), padre(p) {}
-        };
+        Nodo(T n, Nodo* p) : dato(n), izq(nullptr), der(nullptr), padre(p) {}
+    };
 
-        Nodo* raiz; // Puntero a la raíz del árbol
+    Nodo* raiz;
 
-    // Función privada para eliminar todos los nodos en el árbol
-    void eliminarNodo(Nodo* nodo) {
-        if (nodo) {
-            eliminarNodo(nodo->izquierdo);
-            eliminarNodo(nodo->derecho);
-            delete nodo;
-        }
-    }
-
-    // Función privada para agregar un nuevo nodo recursivamente
-    Nodo* agregarRec(Nodo* nodo, T valor, Nodo* padre) {
-        if (!nodo) {
-            return new Nodo(valor, padre);
-        }
-        if (valor < nodo->dato) {
-            nodo->izquierdo = agregarRec(nodo->izquierdo, valor, nodo);
-        } else if (valor > nodo->dato) {
-            nodo->derecho = agregarRec(nodo->derecho, valor, nodo);
-        }
-        return nodo;
-    }
-
-
-    void agregarRec(Nodo* &arbol, int n, Nodo* padre){ //incialmente el puntero 
-  //es la raiz del árbol
-  Nodo* nuevo=crearNodo(n, padre);
-
-  if(arbol==NULL){//si el árbol está vacío 
-    arbol=nuevo; 
-  }else{
-    //como estamos construyendo un árbol binario de búsqueda  
-    /*necesitamos tener en cuenta el valor del nodo respecto a la raiz */
-    int raiz=arbol->dato; 
-
-    if(n<raiz){ /*se coloca al lado izquierdo*/
-        insertar(arbol->izq, n, arbol); //recursividad, el puntero apunta hacia donde
-        //quiero insertar
-    }else{
-        insertar(arbol->der, n,arbol);
-    }
-  }
-}
-
-    // Función privada para buscar un valor en el árbol
-    Nodo* buscarRec(Nodo* nodo, T valor) const {
-        if (!nodo || nodo->dato == valor) {
-            return nodo;
-        }
-        if (valor < nodo->dato) {
-            return buscarRec(nodo->izquierdo, valor);
+    void insertar(Nodo*& arbol, T n, Nodo* padre) {
+        if (!arbol) {
+            arbol = new Nodo(n, padre);
         } else {
-            return buscarRec(nodo->derecho, valor);
-        }
-    }
-
-    void mostrar(Nodo* arbol, int cont){
-        if(arbol==NULL){
-            return;
-        }else{
-            mostrar(arbol->der, cont+1); 
-            for(int i=0; i<cont; i++){ //para dar espacios entre nodo y nodo
-            cout<<"   ";
+            if (n < arbol->dato) {
+                insertar(arbol->izq, n, arbol);
+            } else {
+                insertar(arbol->der, n, arbol);
             }
-            cout<< arbol->dato<<endl;
-            mostrar(arbol->izq, cont+1);
-        
         }
     }
 
-    // Función privada para obtener el tamaño del árbol
-    int tamanioRec(Nodo* nodo) const {
-        if (!nodo) {
-            return 0;
+    void mostrar(Nodo* arbol, int cont) const {
+        if (!arbol) return;
+        mostrar(arbol->der, cont + 1);
+        for (int i = 0; i < cont; ++i) cout << "   ";
+        cout << arbol->dato << endl;
+        mostrar(arbol->izq, cont + 1);
+    }
+
+    bool buscar(Nodo* arbol, T n) const {
+        if (!arbol) return false;
+        if (arbol->dato == n) return true;
+        return n < arbol->dato ? buscar(arbol->izq, n) : buscar(arbol->der, n);
+    }
+
+    void preorden(Nodo* arbol) const {
+        if (!arbol) return;
+        cout << arbol->dato << " ";
+        preorden(arbol->izq);
+        preorden(arbol->der);
+    }
+
+    void inorden(Nodo* arbol) const {
+        if (!arbol) return;
+        inorden(arbol->izq);
+        cout << arbol->dato << " ";
+        inorden(arbol->der);
+    }
+
+    void posorden(Nodo* arbol) const {
+        if (!arbol) return;
+        posorden(arbol->izq);
+        posorden(arbol->der);
+        cout << arbol->dato << " ";
+    }
+
+    Nodo* minimo(Nodo* arbol) const {
+        return arbol->izq ? minimo(arbol->izq) : arbol;
+    }
+
+    void reemplazar(Nodo* arbol, Nodo* nuevo) {
+        if (arbol->padre) {
+            if (arbol == arbol->padre->izq) {
+                arbol->padre->izq = nuevo;
+            } else {
+                arbol->padre->der = nuevo;
+            }
         }
-        return 1 + tamanioRec(nodo->izquierdo) + tamanioRec(nodo->derecho);
+        if (nuevo) {
+            nuevo->padre = arbol->padre;
+        }
+    }
+
+    void destruir(Nodo* nodo) {
+        delete nodo;
+    }
+
+    void eliminarnodo(Nodo* nodo_eliminar) {
+        if (nodo_eliminar->izq && nodo_eliminar->der) { // Tiene dos hijos 
+            Nodo* menor = minimo(nodo_eliminar->der);
+            nodo_eliminar->dato = menor->dato;
+            eliminarnodo(menor);
+        } else if (nodo_eliminar->izq) { // Tiene un hijo izquierdo
+            reemplazar(nodo_eliminar, nodo_eliminar->izq);
+            destruir(nodo_eliminar);
+        } else if (nodo_eliminar->der) { // Tiene un hijo derecho
+            reemplazar(nodo_eliminar, nodo_eliminar->der);
+            destruir(nodo_eliminar);
+        } else { // No tiene hijos
+            reemplazar(nodo_eliminar, nullptr);
+            destruir(nodo_eliminar);
+        }
+    }
+
+    void eliminar(Nodo*& arbol, T n) {
+        if (!arbol) return;
+        if (n < arbol->dato) {
+            eliminar(arbol->izq, n);
+        } else if (n > arbol->dato) {
+            eliminar(arbol->der, n);
+        } else {
+            eliminarnodo(arbol);
+        }
     }
 
 public:
-    ArbolBusqueda();
-    ~ArbolBusqueda();
-    void agregar(T valor);
-    void eliminar(T valor);
-    bool buscar(T valor) const;
-    void mostrar() const;
-    int tamanio() const;
+    ArbolBinarioBusqueda() : raiz(nullptr) {}
+
+    void insertar(T n) {
+        insertar(raiz, n, nullptr);
+    }
+
+    void mostrar() const {
+        mostrar(raiz, 0);
+    }
+
+    bool buscar(T n) const {
+        return buscar(raiz, n);
+    }
+
+    void preorden() const {
+        preorden(raiz);
+        cout << endl;
+    }
+
+    void inorden() const {
+        inorden(raiz);
+        cout << endl;
+    }
+
+    void posorden() const {
+        posorden(raiz);
+        cout << endl;
+    }
+
+    void eliminar(T n) {
+        eliminar(raiz, n);
+    }
 };
 
-template<typename T>
-ArbolBusqueda<T>::ArbolBusqueda() : raiz(nullptr) {}
-
-template<typename T>
-ArbolBusqueda<T>::~ArbolBusqueda() {
-    eliminarNodo(raiz);
-}
-
-template<typename T>
-void ArbolBusqueda<T>::agregar(T valor) {
-    raiz = agregarRec(raiz, valor, nullptr);
-}
-
-template<typename T>
-bool ArbolBusqueda<T>::buscar(T valor) const {
-    return buscarRec(raiz, valor) != nullptr;
-}
-
-template<typename T>
-void ArbolBusqueda<T>::mostrar() const {
-    mostrarRec(raiz);
-    cout << endl;
-}
-
-template<typename T>
-int ArbolBusqueda<T>::tamanio() const {
-    return tamanioRec(raiz);
-}
-
 int main() {
-    ArbolBusqueda<int> arbol;
-    arbol.agregar(5);
-    arbol.agregar(3);
-    arbol.agregar(7);
-    arbol.agregar(2);
-    arbol.agregar(4);
+    ArbolBinarioBusqueda<int> arbol;
+    vector<int> datos = {12, 8, 7, 16, 14};
 
-    cout << "Árbol en orden: ";
+    for (const auto&i : datos) {
+        arbol.insertar(i);
+    }
+
     arbol.mostrar();
-
-    cout << "Tamaño del árbol: " << arbol.tamanio() << endl;
-
-    int buscarValor = 3;
-    cout << (arbol.buscar(buscarValor) ? "El valor " + to_string(buscarValor) + " está en el árbol." : "El valor " + to_string(buscarValor) + " no está en el árbol.") << endl;
+    cout << arbol.buscar(7) << endl;
+    arbol.preorden();
+    arbol.inorden();
+    arbol.posorden();
+    arbol.eliminar(16);
+    cout << endl;
+    arbol.mostrar();
 
     return 0;
 }

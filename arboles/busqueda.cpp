@@ -206,7 +206,7 @@ void eliminarnodo(Nodo* nodo_eliminar){
   }
 }
 
-void eliminar(Nodo* arbol, int n){ //qué pasa si hay más de un n igual???
+void eliminar(Nodo* arbol, int n){ //arbol es un puntero a la raiz del árbol 
 
   if(arbol==NULL){
     return;

@@ -12,7 +12,7 @@ class HashTable {
             Nodo* siguiente; //este nodo se usa para manejar colisiones en la tabla hash, como una lista enlazada simple
         };
 
-        vector<Nodo*> tabla; // Vector de punteros a nodos para la tabla hash
+        vector<Nodo*> tabla; // Vector de punteros a cada celda de la tabla hash
         int capacidad; // Capacidad de la tabla hash
         int tamanio; // Número de elementos en la tabla
 
@@ -43,21 +43,23 @@ public:
 
 template<typename K, typename V>
 HashTable<K, V>::HashTable(int cap) : capacidad(cap), tamanio(0) {
-    tabla.resize(capacidad, nullptr);
+    tabla.resize(capacidad, nullptr); //este método redimensiona el vector y asigna nullptr a cada celda, cada puntero en la tabla apunta a nullptr
 }
 
 template<typename K, typename V>
 HashTable<K, V>::~HashTable() {
     for (int i = 0; i < capacidad; ++i) {
-        eliminarLista(tabla[i]);
+        eliminarLista(tabla[i]); //acá se eliminan todos los elementos de la lista simplemente enlazada de cada celda de la tabla hash, 
+        //el puntero tabla[i] apunta hacia el inicio de la lista enlazada
     }
 }
 
 template<typename K, typename V>
 void HashTable<K, V>::insertar(K clave, V valor) {
     int indice = hashFunc(clave);
-    Nodo* nuevo = new Nodo{clave, valor, tabla[indice]};
-    tabla[indice] = nuevo;
+    Nodo* nuevo = new Nodo{clave, valor, tabla[indice]}; //se crea un nuevo nodo con la clave y valor, y se enlaza con el primer nodo de la
+    // lista enlazada de la celda
+    tabla[indice] = nuevo; //se actualiza el puntero de la celda para que apunte al nuevo nodo
     ++tamanio;
 }
 

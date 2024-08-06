@@ -18,7 +18,7 @@ private:
             Nodo* aux = lista;
             lista = lista->siguiente;
             if (lista) {
-                lista->anterior = nullptr;
+                lista->anterior = nullptr; // Si la lista no está vacía, el anterior del primer nodo debe ser nulo
             }
             delete aux;
         }
@@ -57,7 +57,7 @@ void ListaDoble<T>::agregar(T n) {
         Nodo* aux = lista;
         while (aux->siguiente != nullptr) {
             aux = aux->siguiente;
-        }
+        } //mover el puntero hasta el último nodo
         aux->siguiente = nuevo;
         nuevo->anterior = aux;
     }
@@ -70,7 +70,7 @@ void ListaDoble<T>::sacar(T n) {
 
         while (aux != nullptr && aux->dato != n) {
             aux = aux->siguiente;
-        }
+        } //mover el puntero hasta el nodo a eliminar
 
         if (aux == nullptr) {
             cout << "El elemento no existe" << endl;
