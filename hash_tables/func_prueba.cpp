@@ -88,7 +88,8 @@ vector<unsigned long int> countFrequencies(vector<unsigned long int>& numbers) {
     }
 
     // Mostrar los resultados
-    cout << "Valor\tFrecuencia" << std::endl;
+    
+    //cout << "Valor\tFrecuencia" << std::endl;
     for (const auto& entry : frequencyMap) {
         result.push_back(entry.second);
     }
@@ -104,7 +105,7 @@ unsigned long int desviacion(vector<unsigned long int>& frecuencias, int L, unsi
         desviacion+=pow((frecuencia-promedio),2);
     }
 
-    return sqrt(desviacion/pow(2,L));
+    return desviacion;
 }
 
 
@@ -122,33 +123,37 @@ int main(){
     }
     // Leer el archivo línea por línea
     string line; //vamos a guardar cada palabra en esta variable
-    int L[]={8,14}; //longitudes de los hash que vamos a probar
+    //int L[]={8,14}; //longitudes de los hash que vamos a probar
+    int L=8;
     int tam=0;
     while(getline(inputFile, line)){
         tam++;
     }
 
-    for(auto l:L){
-        vector<unsigned long int> numbers;
-        while(getline(inputFile, line)){
-            numbers.push_back(hashFunc1(line, l));
-        }
+    
+    //for(auto l:L){
+      //  vector<unsigned long int> numbers;
+        //while(getline(inputFile, line)){
+          
+          //  numbers.push_back(hashFunc1(line, l));
+        //}
 
         // Mostrar las frecuencias de los números
         //long int Desviación=desviacion(countFrequencies(numbers), l, tam);
 
-    }
-    
-    //vector<unsigned long int> numbers;
-    
-    //while(getline(inputFile, line)){
-      
-      //  numbers.push_back(hashFunc1(line, L));
-    
     //}
+    
+    vector<unsigned long int> numbers;
+    
+    while(getline(inputFile, line)){
+      numbers.push_back(hashFunc1(line, L));
+    
+    }
 
     // Mostrar las frecuencias de los números
-    //countFrequencies(numbers);
+    vector<unsigned long int> Vector=countFrequencies(numbers);
+    long int Desviación=desviacion(Vector, L, tam);
+    cout<<"Desviación: "<<Desviación<<endl;
 
     // Cerrar el archivo
     inputFile.close();
