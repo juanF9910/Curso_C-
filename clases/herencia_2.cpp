@@ -28,7 +28,8 @@ class Estudiante: public Persona{
     private: 
         float nota; 
     public: 
-        Estudiante(string, int, float); 
+        Estudiante(string, int, float); //los atributos se inicializan en el constructor de la clase base y kuego en el constructor de la clase derivada hasta lo sde
+        //la clase propia.
         void mostrarestudiante();
 };
 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cstring>
 
 using namespace std;
 
@@ -19,8 +20,13 @@ class HashTable {
         int tamanio; // Número de elementos en la tabla, variable global se puede acceder desde cualquier método de la clase
 
         // Función hash, esta función no es única, se puede cambiar por otra función hash según las necesidades del problema a resolver. 
-        int hashFunc(K clave) const {
-            return hash<K>()(clave) % capacidad; // Usar hash de la clave
+        unsigned long int hashFunc(K* clave, int L) const { //L es el número de bits en en la posición de la
+
+            int num=0; 
+            for(int i=0; i<strlen(clave); i++){
+                num+=clave[i];
+            }
+            return num; // Usar hash de la clave
         }
 
         // Función privada para eliminar todos los nodos de una lista enlazada
@@ -148,24 +154,24 @@ int HashTable<K, V>::obtenerTamanio() const {
 }
 
 int main() {
-    HashTable<int, string> hashTable(10); // Tabla hash con capacidad 10, el primer tipo de dato es la clave y el segundo el valor
-    hashTable.insertar(1, "Uno");
-    hashTable.insertar(2, "Dos");
-    hashTable.insertar(3, "Tres");
-    hashTable.insertar(4, "Cuatro");
-    hashTable.insertar(5, "Cinco");
-    hashTable.insertar(5, "Cinco");
+    HashTable<string, int> hashTable(10); // Tabla hash con capacidad 10, el primer tipo de dato es la clave y el segundo el valor
+    hashTable.insertar("Uno", 1);
+    hashTable.insertar("Dos", 2);
+    hashTable.insertar("Tres", 3);
+    hashTable.insertar("Cuatro", 4);
+    hashTable.insertar("Cinco", 5);
+    hashTable.insertar("Cinco", 5);
 
     hashTable.mostrar();
     cout << "Tamaño de la tabla: " << hashTable.obtenerTamanio() << endl;
 
-    cout << "Valor para clave 3: " << hashTable.obtener(3) << endl;
+    cout << "Valor para clave 3: " << hashTable.obtener("tres") << endl;
 
-    hashTable.eliminar(3);
+    hashTable.eliminar("tres");
     hashTable.mostrar();
     cout << "Tamaño de la tabla: " << hashTable.obtenerTamanio() << endl;
 
-    cout << (hashTable.buscar(3) ? "El elemento 3 está en la tabla." : "El elemento 3 no está en la tabla.") << endl;
+    cout << (hashTable.buscar("tres") ? "El elemento 3 está en la tabla." : "El elemento 3 no está en la tabla.") << endl;
 
     return 0;
 }
