@@ -121,39 +121,28 @@ int main(){
         cout<<"No se pudo abrir el archivo: " << filePath <<endl;
         return 1;
     }
-    // Leer el archivo línea por línea
-    string line; //vamos a guardar cada palabra en esta variable
-    //int L[]={8,14}; //longitudes de los hash que vamos a probar
+   
     int L=8;
     int tam=0;
+    string line; //vamos a guardar cada palabra en esta variable
     while(getline(inputFile, line)){
+        //cout<<line<<endl;
         tam++;
     }
-
-    
-    //for(auto l:L){
-      //  vector<unsigned long int> numbers;
-        //while(getline(inputFile, line)){
-          
-          //  numbers.push_back(hashFunc1(line, l));
-        //}
-
-        // Mostrar las frecuencias de los números
-        //long int Desviación=desviacion(countFrequencies(numbers), l, tam);
-
-    //}
-    
+     string Line;
     vector<unsigned long int> numbers;
-    
-    while(getline(inputFile, line)){
-      numbers.push_back(hashFunc1(line, L));
+    while(getline(inputFile, Line)){
+      numbers.push_back(hashFunc1(Line, L));
+      cout<<hashFunc1(Line, L)<<endl;
     
     }
 
     // Mostrar las frecuencias de los números
-    vector<unsigned long int> Vector=countFrequencies(numbers);
-    long int Desviación=desviacion(Vector, L, tam);
-    cout<<"Desviación: "<<Desviación<<endl;
+    
+    
+    //vector<unsigned long int> Vector=countFrequencies(numbers);
+    //long int Desviacion=desviacion(Vector, L, tam);
+    //cout<<"Desviación: "<<Desviacion<<endl;
 
     // Cerrar el archivo
     inputFile.close();
