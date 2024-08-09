@@ -81,15 +81,15 @@ unsigned long int hashFunc3(const string array, int L) { //esta es una función 
 vector<unsigned long int> countFrequencies(vector<unsigned long int>& numbers) { //se le entrega un vector con 
 /* los resultados de la función hash para clave y retorna un vector de frecuencias de cada valor hash*/
     // Crear un unordered_map para almacenar las frecuencias
-    unordered_map<unsigned long int, int> frequencyMap;
-    vector<unsigned long int> result;
+    unordered_map<unsigned long int, int> frequencyMap; //un mapa que asocia un valor hash con su frecuencia
+    vector<unsigned long int> result; //un vector que almacena las frecuencias de los valores hash
 
     // Recorrer la lista de números y contar las frecuencias
-    for (unsigned long int number : numbers) {
-        frequencyMap[number]++;
+    for (unsigned long int number : numbers) { //por cada valor hash en numbers
+        frequencyMap[number]++; //incrementar la frecuencia de ese valor hash
     }
     for (const auto& entry : frequencyMap) {
-        result.push_back(entry.second);
+        result.push_back(entry.second); //agregar la frecuencia de cada valor hash al vector result
     }
     return result;
 }
@@ -130,18 +130,17 @@ int main(){
     while(getline(inputFile, Line)){
         tam++;
     }
+
     cout<<endl; 
     cout << "PRIMERA FUNCIÓN"<<endl;
-
     for(auto &L: l){
-        cout<<"La tasa de colisión ideal es: "<<static_cast<double> (1-pow(2,L)/tam)<<endl;
+        cout<<"La tasa de colisión aleatoria es: "<<static_cast<double> (1-pow(2,L)/tam)<<endl;
         inputFile.clear(); // Limpiar el estado del archivo, es decir, borrar cualquier error o fin de archivo
         inputFile.seekg(0); // Volver al principio del archivo
 
         while(getline(inputFile, Line)){
             numbers.push_back(hashFunc1(Line, L));
         }
-
         vector<unsigned long int> frecuencias = countFrequencies(numbers);
         double colisiones = tasa_colision(frecuencias, tam);
         cout << "L= "<< L<<"  " <<colisiones<<endl;
@@ -152,7 +151,7 @@ int main(){
     cout << "SEGUNDA FUNCIÓN"<<endl;
 
     for(auto &L: l){
-        cout<<"La tasa de colisión ideal es: "<<static_cast<double> (1-pow(2,L)/tam)<<endl;
+        cout<<"La tasa de colisión aleatoria es: "<<static_cast<double> (1-pow(2,L)/tam)<<endl;
         inputFile.clear(); 
         inputFile.seekg(0);
 
@@ -170,7 +169,7 @@ int main(){
     cout<<endl;
     cout << "TERCERA FUNCIÓN"<<endl;
     for(auto &L: l){
-        cout<<"La tasa de colisión ideal es: "<<static_cast<double> (1-pow(2,L)/tam)<<endl;
+        cout<<"La tasa de colisión aleatoria es: "<<static_cast<double> (1-pow(2,L)/tam)<<endl;
         inputFile.clear(); 
         inputFile.seekg(0);
 
