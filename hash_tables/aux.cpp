@@ -103,6 +103,7 @@ double desviacion(const std::vector<unsigned long int>& frecuencias, int L, unsi
     return sqrt(desviacion / frecuencias.size());
 }
 
+
 int main(){
 
    string filePath = "/usr/share/dict/words";
@@ -117,23 +118,54 @@ int main(){
     }
    
     int l[]={8,14};
-    int L=8;
     unsigned long int tam=0;
 
-    
-
- 
+    vector<unsigned long int> numbers={};
     string Line;
- 
+
+
     while(getline(inputFile, Line)){
         tam++;
     }
-    vector<unsigned long int> numbers={};
-    for(auto L: l){
+    cout<<endl; 
+    cout << "Primera función"<<endl;
 
+    for(auto &L: l){
         inputFile.clear(); 
         inputFile.seekg(0);
-        
+
+        while(getline(inputFile, Line)){
+            numbers.push_back(hashFunc1(Line, L));
+        }
+
+        vector<unsigned long int> frecuencias = countFrequencies(numbers);
+        double colisiones = desviacion(frecuencias, L, tam);
+        cout << "L= "<< L<<"  " <<colisiones<<endl;
+        numbers.clear();
+        Line.clear();
+    }
+    cout<<endl;
+    cout << "Segunda función"<<endl;
+    for(auto &L: l){
+        inputFile.clear(); 
+        inputFile.seekg(0);
+
+        while(getline(inputFile, Line)){
+            numbers.push_back(hashFunc2(Line, L));
+        }
+
+        vector<unsigned long int> frecuencias= countFrequencies(numbers);
+        double colisiones = desviacion(frecuencias, L, tam);
+        cout << "L= "<< L<<" " <<colisiones<<endl;
+        numbers.clear();
+        Line.clear();
+    }
+
+    cout<<endl;
+    cout << "Tercera función"<<endl;
+    for(auto &L: l){
+        inputFile.clear(); 
+        inputFile.seekg(0);
 
         while(getline(inputFile, Line)){
             numbers.push_back(hashFunc3(Line, L));
@@ -141,12 +173,10 @@ int main(){
 
         vector<unsigned long int> frecuencias = countFrequencies(numbers);
         double colisiones = desviacion(frecuencias, L, tam);
-        cout << "Desviación para L= "<< L<<" es: " <<colisiones << "para la función 1"<<endl;
+        cout << "L= "<< L<<"  " <<colisiones<<endl;
         numbers.clear();
+        Line.clear();
     }
-
-
-
 
     inputFile.close();
 
