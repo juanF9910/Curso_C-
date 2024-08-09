@@ -47,8 +47,8 @@ string charToBinary(const string array) { //convierte un string a su representac
     string binaryString;
 
     for (int i = 0; i < array.size(); ++i) {
-        bitset<8> bits(array[i]); 
-        binaryString += bits.to_string();
+        bitset<8> bits(array[i]); // Usar un bitset de 8 bits para convertir un char a su representación binaria
+        binaryString += bits.to_string(); // Agregar la representación binaria al string
     }
 
     return binaryString;
@@ -63,8 +63,9 @@ unsigned long int hashFunc3(const string array, int L) { //esta es una función 
     for (size_t i = 0; i < length; i += L) {
 
         string part = input.substr(i, L); // este comando extrae una subcadena de longitud L de la cadena de entrada, iniciando en la posición i
-        bitset<64> bits(part);  // Usar un bitset suficientemente grande para contener hasta 64 bits
-        valor ^= static_cast<unsigned long int>(bits.to_ulong());
+        bitset<64> bits(part);  // Usar un bitset suficientemente grande para contener hasta 64 bits, bits(part) convierte la subcadena 
+        // a su representación binaria
+        valor ^= static_cast<unsigned long int>(bits.to_ulong()); // XOR con el valor actual, bits.to_ulong() convierte el bitset a un entero
     }
 
     if (L == 8){
@@ -93,15 +94,17 @@ vector<unsigned long int> countFrequencies(vector<unsigned long int>& numbers) {
     return result;
 }
 
-double desviacion(const std::vector<unsigned long int>& frecuencias, int L, unsigned long int tam) {   
-    double promedio = static_cast<double>(tam) / pow(2, L); //valor promedio de colisiones
-    double desviacion = 0.0;
-    for (unsigned long int frecuencia : frecuencias) {
-        desviacion += pow(frecuencia - promedio, 2);
+double tasa_colision(const vector<unsigned long int>& frecuencias, unsigned long int tam) {   
+    /*la tasa de colisión se interpreta como la prob de que haya una colisión*/
+    double coli = 0.0;
+    for(auto &frec: frecuencias){
+        if(frec>1){ //el número de colisiones es el número de veces que un valor hash se repite menos 1
+            coli += (frec-1);
+        }
     }
-
-    return sqrt(desviacion / frecuencias.size());
+    return coli/tam;
 }
+
 
 
 int main(){
@@ -128,25 +131,28 @@ int main(){
         tam++;
     }
     cout<<endl; 
-    cout << "Primera función"<<endl;
+    cout << "PRIMERA FUNCIÓN"<<endl;
 
     for(auto &L: l){
-        inputFile.clear(); 
-        inputFile.seekg(0);
+        cout<<"La tasa de colisión ideal es: "<<static_cast<double> (1-pow(2,L)/tam)<<endl;
+        inputFile.clear(); // Limpiar el estado del archivo, es decir, borrar cualquier error o fin de archivo
+        inputFile.seekg(0); // Volver al principio del archivo
 
         while(getline(inputFile, Line)){
             numbers.push_back(hashFunc1(Line, L));
         }
 
         vector<unsigned long int> frecuencias = countFrequencies(numbers);
-        double colisiones = desviacion(frecuencias, L, tam);
+        double colisiones = tasa_colision(frecuencias, tam);
         cout << "L= "<< L<<"  " <<colisiones<<endl;
         numbers.clear();
         Line.clear();
     }
     cout<<endl;
-    cout << "Segunda función"<<endl;
+    cout << "SEGUNDA FUNCIÓN"<<endl;
+
     for(auto &L: l){
+        cout<<"La tasa de colisión ideal es: "<<static_cast<double> (1-pow(2,L)/tam)<<endl;
         inputFile.clear(); 
         inputFile.seekg(0);
 
@@ -155,15 +161,16 @@ int main(){
         }
 
         vector<unsigned long int> frecuencias= countFrequencies(numbers);
-        double colisiones = desviacion(frecuencias, L, tam);
+        double colisiones = tasa_colision(frecuencias, tam);
         cout << "L= "<< L<<" " <<colisiones<<endl;
         numbers.clear();
         Line.clear();
     }
 
     cout<<endl;
-    cout << "Tercera función"<<endl;
+    cout << "TERCERA FUNCIÓN"<<endl;
     for(auto &L: l){
+        cout<<"La tasa de colisión ideal es: "<<static_cast<double> (1-pow(2,L)/tam)<<endl;
         inputFile.clear(); 
         inputFile.seekg(0);
 
@@ -172,7 +179,7 @@ int main(){
         }
 
         vector<unsigned long int> frecuencias = countFrequencies(numbers);
-        double colisiones = desviacion(frecuencias, L, tam);
+        double colisiones = tasa_colision(frecuencias, tam);
         cout << "L= "<< L<<"  " <<colisiones<<endl;
         numbers.clear();
         Line.clear();
