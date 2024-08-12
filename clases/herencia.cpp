@@ -48,9 +48,9 @@ void Persona::mostrar(){
 }
 
 void Alumno::mostraralumno(){
-    mostrar(); //llamo la función miembro que ha sido heredada
+    Persona::mostrar(); //llamo la función miembro que ha sido heredada
     /*puedo llamar los miembros de la clase padre dentro de 
-    cualquier método de la clase hija*/
+    cualquier método de la clase hija, siempre y cuando sean accesibles*/
     cout <<"codigo: " <<codigo  <<" nota: " << nota <<endl;
 }
 

@@ -23,7 +23,7 @@ class Cola{
 };
 
 template<typename T>
-Cola<T>::Cola():frente(nullptr),final(nullptr){}
+Cola<T>::Cola():frente(nullptr),final(nullptr){} //inicialización en línea
 
 
 template<typename T>

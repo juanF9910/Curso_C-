@@ -55,16 +55,16 @@ void ListaCircular<T>::agregar(T n) {
     Nodo* nuevo = new Nodo();
     nuevo->dato = n;
 
-    if (lista == nullptr) {
+    if (lista == nullptr) { // Si la lista está vacía
         lista = nuevo;
         lista->siguiente = lista; // Apunta a sí mismo para cerrar el círculo
     } else {
         Nodo* aux = lista;
-        while (aux->siguiente != lista) {
+        while (aux->siguiente != lista) {//si la lista no está vacía mover el puntero hasta el último nodo
             aux = aux->siguiente;
         }
-        aux->siguiente = nuevo;
-        nuevo->siguiente = lista;
+        aux->siguiente = nuevo; // El último nodo apunta al nuevo nodo
+        nuevo->siguiente = lista; // El nuevo nodo apunta al primer nodo
     }
 }
 
@@ -103,6 +103,7 @@ void ListaCircular<T>::sacar(T n) {
     } else {
         cout << "La lista está vacía" << endl;
     }
+    sacar(n); // Recursividad para eliminar todos los elementos iguales
 }
 
 template<typename T>

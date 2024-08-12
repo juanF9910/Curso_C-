@@ -18,9 +18,9 @@ unsigned long int hashFunc1(string clave, int L){
     }
 
     if (L == 8){
-        return num & 0xFF; // Usar hash de la clave
+        return num & 0xFF; // Usar hash de la clave, 0xFF es una máscara de bits que mantiene los 8 bits menos significativos
     } else if(L == 14){
-        return num & 0x3FFF; // Usar hash de la clave
+        return num & 0x3FFF; // Usar hash de la clave, 0x3FFF es una máscara de bits que mantiene los 14 bits menos significativos
     } else {
         return -1; //unvalor negativo para indicar que la longitud no es válida
     }
@@ -66,6 +66,7 @@ unsigned long int hashFunc3(const string array, int L) { //esta es una función 
         bitset<64> bits(part);  // Usar un bitset suficientemente grande para contener hasta 64 bits, bits(part) convierte la subcadena 
         // a su representación binaria
         valor ^= static_cast<unsigned long int>(bits.to_ulong()); // XOR con el valor actual, bits.to_ulong() convierte el bitset a un entero
+        //to_ulong() convierte el bitset a un entero
     }
 
     if (L == 8){
@@ -106,7 +107,6 @@ double tasa_colision(const vector<unsigned long int>& frecuencias, unsigned long
 }
 
 
-
 int main(){
 
    string filePath = "/usr/share/dict/words";
@@ -123,7 +123,8 @@ int main(){
     int l[]={8,14};
     unsigned long int tam=0;
 
-    vector<unsigned long int> numbers={};
+    vector<unsigned long int> numbers={}; //lista vacía en donde vamos a guardar los valores hash de las claves
+    //para luego contar las frecuencias de los valores hash
     string Line;
 
 
@@ -134,7 +135,7 @@ int main(){
     cout<<endl; 
     cout << "PRIMERA FUNCIÓN"<<endl;
     for(auto &L: l){
-        cout<<"La tasa de colisión aleatoria es: "<<static_cast<double> (1-pow(2,L)/tam)<<endl;
+        cout<<"La tasa de colisión aleatoria es: "<<static_cast<double> (1-pow(2,L)/tam)<<endl; //1- el número de keys por dato
         inputFile.clear(); // Limpiar el estado del archivo, es decir, borrar cualquier error o fin de archivo
         inputFile.seekg(0); // Volver al principio del archivo
 

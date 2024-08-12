@@ -11,7 +11,7 @@ class Animal{
 
     public: 
         Animal(int); 
-        virtual void comer(); 
+        virtual void comer(); //virtual significa que se puede sobreescribir en las clases derivadas
 };
 
 Animal::Animal(int edad){
@@ -36,7 +36,7 @@ Humano::Humano(int edad, string nomnbre):Animal(edad){
 }
 
 void Humano::comer(){
-    Animal::comer();
+    //Animal::comer(); //puedo acceder a las funciones miebro de la clase base que sean públicas. 
     cout <<"en una mesa, sentado en una silla"<<endl;
 }
 

@@ -18,16 +18,16 @@ class HashTable {
             Nodo* siguiente;
         };
 
-        vector<Nodo*> tabla;
-        int capacidad;
-        int tamanio;
-        int L;
+        vector<Nodo*> tabla; // Vector de punteros a nodos, que en realidad apuntan a listas enlazadas
+        int capacidad; // Capacidad de la tabla hash, número de valores hash diferentes que se pueden almacenar
+        int tamanio; // Tamaño de la tabla hash, número de elementos almacenados
+        int L;  //número de bits que entrega la función hash
 
-        string charToBinary(const string& array) const {
+        string charToBinary(const string& array) const { //convierte un string a su representación binaria en una cadena de bits
             string binaryString;
             for (int i = 0; i < array.size(); ++i) {
-                bitset<8> bits(array[i]); 
-                binaryString += bits.to_string();
+                bitset<8> bits(array[i]);  // Usar un bitset de 8 bits para convertir un char a su representación binaria
+                binaryString += bits.to_string(); // Agregar la representación binaria al string
             }
             return binaryString;
         }
@@ -38,9 +38,9 @@ class HashTable {
             size_t length = input.length();
 
             for (size_t i = 0; i < length; i += L) {
-                string part = input.substr(i, L);
-                bitset<64> bits(part);
-                valor ^= static_cast<unsigned long int>(bits.to_ulong());
+                string part = input.substr(i, L); //toma una subcadena de longitud L
+                bitset<64> bits(part); //convierte la subcadena a un bitset de 64 bits, un bitset es un vector de bits      
+                valor ^= static_cast<unsigned long int>(bits.to_ulong()); // XOR de los bits de la subcadena
             }
             return valor & 0x3FFF; // devolvemos los 14 bits menos significativos
         }
@@ -65,7 +65,7 @@ class HashTable {
             }
         }
 
-        void eliminarLista(Nodo* lista) {
+        void eliminarLista(Nodo* lista) { //le entrego 
             while (lista) {
                 Nodo* aux = lista;
                 lista = lista->siguiente;
@@ -74,7 +74,7 @@ class HashTable {
         }
 
     public:
-        HashTable(int cap, int L);
+        HashTable(int cap, int L); // Constructor, se le ingresa la capacidad y la longitud L
         ~HashTable();
         void insertar(string clave, V valor);
         void eliminar(string clave);
@@ -86,7 +86,7 @@ class HashTable {
 
 template<typename V>
 HashTable<V>::HashTable(int cap, int L) : capacidad(cap), tamanio(0), L(L) {
-    tabla.resize(capacidad, nullptr);
+    tabla.resize(capacidad, nullptr); //incializamos el tamaño de la tabla y todos los elementos en nullptr
 }
 
 template<typename V>
@@ -182,7 +182,7 @@ int HashTable<V>::obtenerTamanio() const {
 }
 
 int main() {
-    int L = 8;
+    int L = 14;
     
     string filePath = "/usr/share/dict/words";
     ifstream inputFile(filePath);
@@ -198,22 +198,22 @@ int main() {
         tam++;
     }
  
-    HashTable<int> *hashTable = new HashTable<int>(pow(2, L), L);
-    inputFile.clear(); 
+    HashTable<int> *hashTable = new HashTable<int>(pow(2, L), L);  //defino el objeto hashTable
+    inputFile.clear(); // Limpiar el estado del archivo, llevar el puntero al inicio
     inputFile.seekg(0);
 
     for (unsigned long int i = 0; i < tam; i++) {
         getline(inputFile, Line);
-        hashTable->insertar(Line, i);
+        hashTable->insertar(Line, i); // Insertar la palabra y el valor en la tabla hash
         Line.clear();
     }
 
     hashTable->mostrar();
     cout << "Tamaño de la tabla: " << hashTable->obtenerTamanio() << endl;
     
-    //cout << hashTable->buscar("zygotes") << endl;
+    cout << hashTable->buscar("wonkier") << endl;
     
-    //cout << hashTable->obtener("zygotes") << endl;
+    cout << hashTable->obtener("wonkier") << endl;
     delete hashTable; // Eliminar la tabla hash
     return 0;
 }

@@ -4,34 +4,34 @@ using namespace std;
 
 template<typename T>
 class ListaDoble {
-private:
-    struct Nodo {
-        T dato;
-        Nodo* siguiente;
-        Nodo* anterior;
-    };
-    Nodo* lista; // Puntero al primer nodo de la lista doblemente enlazada
+    private:
+        struct Nodo {
+            T dato;
+            Nodo* siguiente;
+            Nodo* anterior;
+        };
+        Nodo* lista; // Puntero al primer nodo de la lista doblemente enlazada
 
-    // Función privada para eliminar el primer nodo
-    void eliminarPrimero() {
-        if (lista) {
-            Nodo* aux = lista;
-            lista = lista->siguiente;
+        // Función privada para eliminar el primer nodo
+        void eliminarPrimero() {
             if (lista) {
-                lista->anterior = nullptr; // Si la lista no está vacía, el anterior del primer nodo debe ser nulo
+                Nodo* aux = lista;
+                lista = lista->siguiente;
+                if (lista) {
+                    lista->anterior = nullptr; // Si la lista no está vacía, el anterior del primer nodo debe ser nulo
+                }
+                delete aux;
             }
-            delete aux;
         }
-    }
 
-public:
-    ListaDoble();
-    ~ListaDoble();
-    void agregar(T n);
-    void sacar(T n);
-    void mostrar() const;
-    bool buscar(T n) const;
-    int tamanio() const;
+    public:
+        ListaDoble();
+        ~ListaDoble();
+        void agregar(T n);
+        void sacar(T n);
+        void mostrar() const;
+        bool buscar(T n) const;
+        int tamanio() const;
 };
 
 template<typename T>

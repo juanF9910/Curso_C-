@@ -12,17 +12,17 @@ class ArbolBinarioBusqueda {
             Nodo* der;
             Nodo* padre;
 
-            Nodo(T n, Nodo* p) : dato(n), izq(nullptr), der(nullptr), padre(p) {}
+            Nodo(T n, Nodo* p) : dato(n), izq(nullptr), der(nullptr), padre(p) {} n //constructor de la estructura Nodo
         };
 
-        Nodo* raiz;
+        Nodo* raiz; //puntero a la raíz del árbol binario
 
         void insertar(Nodo*& arbol, T n, Nodo* padre) {
             if (!arbol) { //si el arbol está vacío
-                arbol = new Nodo(n, padre);
+                arbol = new Nodo(n, padre); //creamos un nuevo nodo
             } else {
-                if (n < arbol->dato) {
-                    insertar(arbol->izq, n, arbol);
+                if (n < arbol->dato) { //si el valor es menor que el valor del nodo actual
+                    insertar(arbol->izq, n, arbol); //insertamos en el subárbol izquierdo
                 } else {
                     insertar(arbol->der, n, arbol);
                 }
@@ -31,10 +31,10 @@ class ArbolBinarioBusqueda {
 
         void mostrar(Nodo* arbol, int cont) const {
             if (!arbol) return;
-            mostrar(arbol->der, cont + 1);
+            mostrar(arbol->der, cont + 1); //mostramos el subárbol derecho
             for (int i = 0; i < cont; ++i) cout << "   ";
-            cout << arbol->dato << endl;
-            mostrar(arbol->izq, cont + 1);
+            cout << arbol->dato << endl; //mostramos el valor del nodo
+            mostrar(arbol->izq, cont + 1); //mostramos el subárbol izquierdo
         }
 
         bool buscar(Nodo* arbol, T n) const {

@@ -14,7 +14,7 @@ class HashTable {
             Nodo* siguiente; //este nodo se usa para manejar colisiones en la tabla hash, como una lista enlazada simple
         };
 
-        vector<Nodo*> tabla; // Vector de punteros a cada celda de la tabla hash
+        vector<Nodo*> tabla; // Vector de punteros a cada celda de la tabla hash, cada puntero apunta a una lista simplemente enlazada
         int capacidad; // Capacidad de la tabla hash, variable global
         int tamanio; // Número de elementos en la tabla, variable global se puede acceder desde cualquier método de la clase
 

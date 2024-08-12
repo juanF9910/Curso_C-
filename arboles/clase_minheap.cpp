@@ -14,7 +14,7 @@ class MinHeap {
             Nodo* der;
             Nodo* padre;
 
-            Nodo(T n, Nodo* p) : dato(n), izq(nullptr), der(nullptr), padre(p) {}
+            Nodo(T n, Nodo* p) : dato(n), izq(nullptr), der(nullptr), padre(p) {} //constructor de la estructura Nodo, se inicializan los punteros a nulo
         };
 
         Nodo* raiz;
@@ -22,9 +22,9 @@ class MinHeap {
         void insertar(Nodo*& arbol, T n, Nodo* padre) {
             if (!arbol) {
                 arbol = new Nodo(n, padre);
-                heapifyUp(arbol);
+                heapifyUp(arbol);//se llama a la función para mantener la propiedad de heap, es decir, que el nodo padre sea menor que los nodos hijos
             } else {
-                if (!arbol->izq) {
+                if (!arbol->izq) { 
                     insertar(arbol->izq, n, arbol);
                 } else if (!arbol->der) {
                     insertar(arbol->der, n, arbol);
@@ -46,7 +46,7 @@ class MinHeap {
             }
         }
 
-        void mostrar(Nodo* arbol, int cont) const{
+        void mostrar(Nodo* arbol, int cont) const {
             if (!arbol) return;
             mostrar(arbol->der, cont + 1);
             for (int i = 0; i < cont; ++i) cout << "   ";
@@ -119,12 +119,15 @@ class MinHeap {
             }
         }
 
-
     public:
         MinHeap() : raiz(nullptr) {}
 
         void insertar(T n) {
             insertar(raiz, n, nullptr);
+        }
+
+        void eliminar(T n) {
+            eliminar(raiz, n);
         }
 
         void mostrar() const {
@@ -135,11 +138,7 @@ class MinHeap {
             return buscar(raiz, n);
         }
 
-        void eliminar(T n) {
-            eliminar(raiz, n);
-        }
-
-        bool buscar(Nodo* arbol, T n) const {
+        bool buscar(Nodo* arbol, T n) const { //esta función es recursiva y se encarga de buscar un elemento en el árbol 
             if (!arbol) return false;
             if (arbol->dato == n) return true;
             return buscar(arbol->izq, n) || buscar(arbol->der, n);
