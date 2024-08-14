@@ -182,7 +182,7 @@ int HashTable<V>::obtenerTamanio() const {
 }
 
 int main() {
-    int L = 14;
+    int L = 8;
     
     string filePath = "/usr/share/dict/words";
     ifstream inputFile(filePath);

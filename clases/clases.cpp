@@ -12,6 +12,7 @@ class Animal { // clase base
         Animal(); // constructor
         ~Animal(); // destructor
         static int obtenerNumeroAnimales(); // método estático que devuelve el número de animales creados hasta el momento 
+        //las funciones static no pueden acceder a los atributos de la clase, solo a los atributos static
         string obtenerAlimento(){ // método que devuelve el alimento del animal
             return alimento;
         };
@@ -25,7 +26,7 @@ int Animal::numero_animales = 0;
 Animal::Animal()
 {
     cout<<"Creando nuevo animal ... "<<endl;
-    numero_animales += 1;
+    numero_animales += 1; //la variable static se incrementa en uno cada vez que se crea un nuevo animal
 }
 
 Animal::~Animal()
@@ -41,14 +42,15 @@ int Animal::obtenerNumeroAnimales()
 
 class Herviboro : public Animal {
     public:
-        Herviboro():Animal(){
-            this->alimento = "plantas ";
-        }
+        Herviboro();
         void pastar(){
             cout<<"Este animal está pasteando ..."<<endl;
         }
 };
 
+Herviboro::Herviboro():Animal(){
+    this->alimento = "plantas ";
+}
 class Carnivoro : public Animal {
 public:
     Carnivoro():Animal(){

@@ -63,7 +63,7 @@ class ArbolBinarioBusqueda {
             posorden(arbol->der);
             cout << arbol->dato << " ";
         }
-
+//los códigos de acá en adelante son para eliminar nodos del árbol
         Nodo* minimo(Nodo* arbol) const {
             return arbol->izq ? minimo(arbol->izq) : arbol;
         }
